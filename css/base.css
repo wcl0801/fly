@@ -1,0 +1,178 @@
+html,
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+input,
+em,
+textarea,
+p,
+th,
+td,
+span {
+	margin: 0px;
+	padding: 0px;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+	font: 12px/1.5 "微软雅黑", '宋体', STHeiTi, Arial, Helvetica, sans-serif;
+	color: #333;
+	/*font: 16px "微软雅黑",'宋体',STHeiTi;*/
+}
+
+body {
+	background-color: #fff;
+}
+
+p {
+	/*line-height: 21px;*/
+}
+
+img,
+a img,
+fieldset,
+button,
+input {
+	border: none;
+	outline: none;
+	/*解决图片底部间距问题*/
+	vertical-align: middle;
+}
+
+li {
+	list-style-type: none;
+}
+
+a:link {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #666;
+	text-decoration: underline;
+}
+
+a:active {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+
+/*清楚浮动*/
+
+.clear {
+	clear: both;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	line-height: 0;
+}
+
+.clearBoth {
+	clear: both;
+}
+
+
+/*左右浮动效果*/
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+
+/*设置内部元素排列*/
+
+.tl {
+	text-align: left;
+}
+
+.tr {
+	text-align: right;
+}
+
+.tc {
+	text-align: center;
+}
+
+
+/*字体粗细设置*/
+
+.fontBold {
+	font-weight: bold;
+}
+
+.fontLighter {
+	font-weight: lighter;
+}
+
+.f_red {
+	color: #c00000;
+}
+
+.p_title {
+	border-left: 4px solid red;
+	padding-left: 5px;
+	font-size: 15px;
+}
+
+
+/*清除浮动的类*/
+
+.clearfix {
+	zoom: 1;
+}
+
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+	height: 0;
+	overflow: hidden;
+	visibility: hidden;
+}
+
+
+/*垂直居中问题*/
+
+.middle:before {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	width: 0;
+	visibility: hidden;
+	vertical-align: middle;
+}
+
+
+/*超出省略号代替*/
+
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

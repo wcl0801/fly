@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<title></title>
+
+		<style type="text/css">
+			html,
+			body {
+				height: 100%;
+			}
+			
+			#fbWrap {
+				background: url(img/bg.jpg) no-repeat 0 0/100% 100%;
+				height: 100%;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			#mask {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				background-color: rgba(0, 0, 0, 0.8);
+				/*display: none;*/
+				z-index: 10;
+			}
+			
+			.loading-bg {
+				width: 80%;
+				height: 20px;
+				background: blanchedalmond;
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+				border-radius: 25px;
+				overflow: hidden;
+			}
+			
+			#loading {
+				height: 100%;
+				background: red;
+				width: 0px;
+			}
+			
+			#menu {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				background-color: rgba(0, 0, 0, 0.2);
+				z-index: 9;
+			}
+			
+			#menu img {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 55%;
+				margin: auto;
+				/*top: 60%;*/
+				/*85/320*/
+				width: 26.5626%;
+			}
+			
+			#score {
+				/*position: absolute;*/
+				/*left: 45%;*/
+				/*top: 50px;*/
+				/*display: flex;*/
+				/*background: red;*/
+				/*justify-content: center;*/
+				text-align: center;
+				position: relative;
+				top: 10%;
+				z-index: 8;
+			}
+			
+			#score img {
+				/*28/320*/
+				width: 8.75%;
+			}
+			
+			#head {
+				/*position: absolute;*/
+				/*background: red;*/
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+				top: 15%;
+				/*77/568*/
+				height: 13.55634%;
+				/*left: 50px;*/
+				/*top: 100px;*/
+				animation: headMove 1s ease-in-out infinite alternate;
+			}
+			
+			#head span {
+				position: relative;
+				/*40/320*/
+				width: 12.5%;
+				/*29/77*/
+				height: 37.6623%;
+				/*height: 5.10563%;*/
+				right: 10%;
+				/*top: 20px;*/
+				background: url(img/up_bird.png) no-repeat center center/contain;
+				animation: flay 1s ease-in-out infinite alternate;
+			}
+			
+			#head img {
+				/*236/320*/
+				width: 73.75%;
+			}
+			
+			@keyframes headMove {
+				from {
+					top: 100px;
+				}
+				to {
+					top: 130px;
+				}
+			}
+			/*小鸟动画*/
+			
+			@keyframes flay {
+				from {
+					background: url(img/up_bird.png) no-repeat center center/contain;
+				}
+				to {
+					background: url(img/down_bird.png) no-repeat center center/contain;
+				}
+			}
+			
+			#slider {
+				position: absolute;
+				/*425/480*/
+				top: 88.541667%;
+				left: 0;
+				width: 300%;
+				/*12/480*/
+				height: 2.5%;
+				animation: sliderMove 2s linear infinite;
+			}
+			
+			#slider img {
+				height: 100%;
+				float: left;
+			}
+			
+			@keyframes sliderMove {
+				from {
+					left: 0;
+				}
+				to {
+					left: -320px;
+				}
+			}
+			
+			#bird {
+				position: absolute;
+				left: 10%;
+				top: 50%;
+				/*隐藏*/
+				display: none;
+				/*40/320*/
+				width: 12.5%;
+			}
+			
+			#end {
+				position: absolute;
+				width: 100%;
+				text-align: center;
+				top: 30%;
+				/*隐藏*/
+				display: none;
+				z-index: 10;
+			}
+			
+			#end img {
+				width: 80%;
+			}
+			
+			#end span {
+				position: absolute;
+				font-size: 25px;
+			}
+			
+			#end_score {
+				right: 25%;
+				top: 22%;
+			}
+			
+			#h_score {
+				right: 25%;
+				top: 59%;
+			}
+			/*管道*/
+			
+			#pipe_box {
+				position: absolute;
+				/*width: 100%;
+				height: 100%;*/
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				/*background: red;*/
+			}
+			
+			.pipe {
+				position: absolute;
+				right: 0;
+				top: 0;
+				/*62/320*/
+				width: 19.375%;
+				height: 88.541667%;
+				;
+				/*background: blue;*/
+			}
+			
+			#t_pipe {
+				position: absolute;
+				width: 100%;
+				height: 150px;
+				top: 0;
+				left: 0;
+				/*背景*/
+				background: url(img/up_pipe.png) no-repeat left bottom/100%, url(img/up_mod.png) 0 0/100%;
+			}
+			
+			#b_pipe {
+				position: absolute;
+				width: 100%;
+				height: 150px;
+				bottom: 0;
+				left: 0;
+				/*背景*/
+				background: url(img/down_pipe.png) no-repeat left top/100%, url(img/down_mod.png) 0 0/100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="fbWrap">
+			<!--进度条-->
+			<div id="mask">
+				<div class="loading-bg">
+					<div id="loading"></div>
+				</div>
+			</div>
+
+			<!--菜单-->
+			<div id="menu">
+				<img src="img/start.jpg" />
+			</div>
+
+			<!--分数-->
+			<div id="score">
+				<img src="img/0.jpg" />
+			</div>
+
+			<div id="head">
+				<img src="img/head.jpg" />
+				<!--小鸟背景，动画换图-->
+				<span></span>
+			</div>
+
+			<!--滑动条-->
+			<div id="slider">
+				<img src="img/slider.png" /><img src="img/slider.png" />
+			</div>
+
+			<!--222222222-->
+			<img src="img/bird.png" alt="" id="bird" />
+
+			<!--游戏结束-->
+			<div id="end">
+				<img src="img/message.jpg" />
+				<!--本局-->
+				<span id="end_score">0</span>
+				<!--最高-->
+				<span id="h_score">0</span>
+			</div>
+
+			<!--管道-->
+			<ul id="pipe_box">
+				<!--<li class="pipe">
+					<div id="t_pipe"></div>
+					<div id="b_pipe"></div>
+				</li>-->
+			</ul>
+
+		</div>
+
+		<audio src="img/game_music.mp3" loop="" id="gameM"></audio>
+		<audio src="img/game_over.mp3" id="gameO"></audio>
+		<audio src="img/bullet.mp3" id="bulletM"></audio>
+
+		<script src="js/loading2.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			//元素对象
+			var loading = document.getElementById("loading");
+			var mask = document.getElementById("mask");
+
+			var start = document.querySelector("#menu img");
+			//分数
+			var score_box = document.getElementById("score");
+			//点击隐藏元素
+			var head = document.getElementById("head");
+			var menu = document.getElementById("menu");
+			//小鸟
+			var bird = document.getElementById("bird");
+
+			//管道容器
+			var pipeBox = document.getElementById("pipe_box");
+
+			//游戏结束信息
+			var end = document.getElementById("end");
+			//本次得分
+			var end_score = document.getElementById("end_score");
+			//历史最高分
+			var h_score = document.getElementById("h_score");
+			//fbWrap:最大容器，绑定点击
+			var fbWrap = document.getElementById("fbWrap");
+
+			//音乐
+			var gameM = document.getElementById("gameM");
+			var gameO = document.getElementById("gameO");
+			var bulletM = document.getElementById("bulletM");
+
+			var imgArr = ["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.jpg", "img/5.jpg", "img/6.jpg", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/bird.png"];
+
+			var gameObj = {
+				pathHeight: 200, //默认管道间空隙的大小
+				width: window.innerWidth,
+				speed: 1, //柱子移动的速度
+				cTimeID: null, //创建柱子的定时器
+				score: 0, //本局分数
+				bestScore: 0, //历史最高分
+				pipeHeight: 0, //保存柱子li的高度
+			};
+
+			//开始加载图片
+			Loading.load(imgArr, function(value) {
+				loading.style.width = value + "%";
+			}, function() {
+				mask.style.display = "none";
+				//开始游戏布局
+				main();
+			});
+			
+			//刷新
+			end.addEventListener("touchstart",function(ev){
+				//alert(12)
+				ev.stopPropagation();
+				window.location.reload();
+			});
+
+			function main() {
+				start.onclick = function(ev) {
+					ev = ev || window.event;
+					//ev.cancelBubble = true;
+					//阻止冒泡
+					ev.stopPropagation();
+					//隐藏
+					menu.style.display = "none";
+					head.style.display = "none";
+					//显示
+					bird.style.display = "block";
+					//放音乐
+					gameM.play();
+					//暂停
+					//gameM.pause();
+
+					//创建管道
+					createPipe();
+					gameObj.cTimeID = setInterval(createPipe, 4000);
+
+					//下落方法
+					//drop();
+					bird.dropTimer = setInterval(drop, 16);
+
+					//绑定touch
+//					touchEvent()
+					//处理碰壁检测
+					crashTest();
+
+				}
+
+			}
+
+			//管道创建函数
+			function createPipe() {
+				var pipe = document.createElement("li");
+				//设置样式
+				pipe.className = "pipe";
+				//屏幕右边
+				pipe.style.left = gameObj.width + "px";
+				pipeBox.appendChild(pipe);
+
+				//保存柱子高度，在小鸟落地判断使用
+				gameObj.pipeHeight = pipe.clientHeight;
+
+				//上
+				var topPipe = document.createElement("div");
+				//样式
+				topPipe.id = "t_pipe";
+				//随机高度: 50上下管道最小的高度
+				var max = pipe.clientHeight - gameObj.pathHeight - 50;
+				topPipe.style.height = randomNumber(50, max) + "px";
+				pipe.appendChild(topPipe);
+
+				//下
+				var bottomPipe = document.createElement("div");
+				//样式
+				bottomPipe.id = "b_pipe";
+				//随机高度
+				bottomPipe.style.height = pipe.clientHeight - topPipe.clientHeight - gameObj.pathHeight + 'px';
+
+				pipe.appendChild(bottomPipe);
+
+				//移动。。
+				movePipe(pipe);
+			}
+
+			//移动pipe方法
+			function movePipe(pipe) {
+
+				pipe.moveID = setInterval(function() {
+					//移动this
+					var po = this.offsetLeft - gameObj.speed;
+
+					this.style.left = po + "px";
+
+					//判断出去
+					if(po <= -this.clientWidth) {
+						clearInterval(this.moveID);
+						pipeBox.removeChild(this);
+					}
+					//判断是否得分（柱子的位置跑到小鸟后）
+					if(po + this.clientWidth == bird.offsetLeft) {
+						//clearInterval(this.moveID);
+						addScore();
+					}
+
+				}.bind(pipe), 16);
+
+			}
+
+			//加分
+			function addScore() {
+				gameObj.score += 1;
+				//转为字符串
+				//var scoreStr = gameObj.score.toString();
+				var scoreStr = String(gameObj.score);
+				//清空
+				score_box.innerHTML = "";
+				//1   12
+				for(var i = 0; i < scoreStr.length; i++) {
+					//console.log(scoreStr[i]);
+					var num = scoreStr[i];
+
+					var img = document.createElement("img");
+					img.src = "img/" + num + ".jpg";
+					score_box.appendChild(img);
+					
+					
+					
+					
+				}
+				
+			}
+				
+			//下落速度
+			bird.speed = 0;
+			//小鸟下落
+			function drop() {
+				//加速度坠落
+				bird.speed += 0.5;
+
+				bird.style.top = bird.offsetTop + bird.speed + "px";
+
+				//下落图片
+				bird.src = "img/down_bird.png";
+
+				//bird.dropTimer = setTimeout(drop,16);
+
+				//是否落地
+				if(bird.offsetTop + bird.clientHeight >= gameObj.pipeHeight) {
+					//游戏结束
+					gameOver();
+
+				}
+
+			}
+
+			//游戏结束函数
+			function gameOver() {
+
+				//清除点击绑定
+				fbWrap.removeEventListener("touchstart",touchEvent);
+				//请下落定时器
+				//clearTimeout(bird.dropTimer);
+				//清除所有定时器
+				var lastTimer = setInterval(null, 1);
+				//alert(lastTimer);
+				for(var i = lastTimer; i > 0; i--) {
+					clearInterval(i);
+				}
+				//显示结果
+				end.style.display = "block";
+
+				//本次得分:
+				end_score.innerText = gameObj.score;
+
+				//历史最高????
+				//localStorage.setItem("sco",gameObj.score);
+				if(localStorage.getItem("sco")==null){
+						localStorage.setItem("sco",0);
+					}
+					if(gameObj.score > +localStorage.getItem("sco")){
+						localStorage.setItem("sco",gameObj.score);
+					}
+						h_score.innerText = localStorage.getItem("sco");
+						//console.log(gameObj.score);
+						//console.log(localStorage.getItem("sco"));
+			}
+			
+			//阻止掉事件冒泡到fbWrap身上
+			start.addEventListener("touchstart",function(ev){
+				ev.stopPropagation();
+				fbWrap.addEventListener("touchstart", touchEvent);
+			});
+			
+			
+			
+			//向上
+			function up() {
+				bird.speed -= 0.5;
+
+				bird.style.top = bird.offsetTop - bird.speed + "px";
+				if(bird.speed <= 0) {
+					//清除上定时器
+					clearInterval(bird.upTimer);
+					//速度恢复0
+					bird.speed = 0;
+					//开启下落定时器
+					bird.dropTimer = setInterval(drop, 16);
+				}
+
+				//上边界
+				if(bird.offsetTop <= 0) {
+					bird.style.top = "0";
+					gameOver();
+				}
+
+			}
+
+			//屏幕触摸事件
+			function touchEvent() {
+				//alert(12);
+				//换图
+				bird.src = "img/up_bird.png";
+				//下落定时器清除
+				clearInterval(bird.dropTimer);
+				//清除上一个
+				clearInterval(bird.upTimer);
+
+				//绑定向上定时器
+				bird.upTimer = setInterval(up, 16);
+				//速度最大值
+				bird.speed = 7;
+				//执行up
+				up();
+
+			}
+
+			//检测碰撞
+			function crashTest() {
+
+				setInterval(function() {
+					//上下两个柱子
+					var pipes = pipeBox.children; // li==pipe
+					//pipe->上div，下div
+					for(var i = 0; i < pipes.length; i++) {
+						//每一个pipe下的上下div
+						var tP = pipes[i].children[0];
+						//下
+						var bP = pipes[i].children[1];
+						//检测
+						var rel = crash(bird, tP) || crash(bird, bP);
+						if(rel) {
+							gameOver();
+						}
+					}
+
+				}, 16);
+			}
+			//随机数
+			function randomNumber(min, max) {
+				return parseInt(Math.random() * (max - min + 1) + min);
+			}
+
+			function crash(obj1, obj2) {
+
+				//拿到obj1四个边的偏移量
+				var R1 = obj1.offsetLeft + 　obj1.clientWidth;
+				var L1 = obj1.offsetLeft;
+				var T1 = obj1.offsetTop;
+				var B1 = obj1.offsetTop + obj1.clientHeight;
+
+				//对象2四个值
+				var R2 = obj2.parentNode.offsetLeft + 　obj2.clientWidth;
+				//div的父元素 - > pipe : 距离屏幕左边的大小
+				var L2 = obj2.parentNode.offsetLeft;
+				var T2 = obj2.offsetTop;
+				var B2 = obj2.offsetTop + obj2.clientHeight;
+				//不碰到的情况
+				if(R1 < L2 || B1 < T2 || L1 > R2 || T1 > B2) {
+					//console.log("没有碰到")
+					return false;
+				} else {
+					//console.log("碰到");
+					return true;
+
+				}
+
+			}
+		</script>
+	</body>
+
+</html>
